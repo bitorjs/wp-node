@@ -2,7 +2,15 @@ import Koa from 'koa';
 import KoaRouter from 'koa-router';
 const app = new Koa();
 const router = new KoaRouter();
-import fs from 'fs';
+const files = require.context(".", true, /\/controllers\/.*\.js$/);
+console.log(files.keys())
+files.keys().map(key => {
+  let m = files(key);
+  console.log(m.default || m)
+})
+
+
+
 // 添加路由
 router.get('/', async (ctx, next) => {
   ctx.response.body = '<h1>index page</h1>'
