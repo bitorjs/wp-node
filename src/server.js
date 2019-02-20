@@ -1,18 +1,24 @@
-const Koa = require('koa');
-const Router = require('koa-router');
+import Koa from 'koa';
+import KoaRouter from 'koa-router';
 const app = new Koa();
-const router = new Router();
-
-
-
-app.use((ctx) => {
-  if (ctx.request.url == '/about') {
-    ctx.body = 'aa';
-  } else {
-    ctx.body = 'sdfsd';
-  }
-});
-
-app.listen(1029);
-
+const router = new KoaRouter();
 import fs from 'fs';
+// 添加路由
+router.get('/', async (ctx, next) => {
+  ctx.response.body = '<h1>index page</h1>'
+})
+
+router.get('/home', async (ctx, next) => {
+  ctx.response.body = '<h1>HOME page</h1>'
+})
+
+router.get('/404', async (ctx, next) => {
+  ctx.response.body = '<h1>404 Not Found</h1>'
+})
+
+// 调用路由中间件
+app.use(router.routes())
+
+app.listen(1029, () => {
+  console.log('server is running at http://localhost:1029')
+});

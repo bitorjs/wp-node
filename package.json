@@ -8,6 +8,7 @@
     "start": "supervisor --harmon ./index.js",
     "dev": "npm start",
     "debug": "node --inspect-brk ./dist/ddd.js",
+    "server": "node ./dist/ddd.js",
     "build": "webpack --config ./webpack.config.js --progress --color",
     "build:watch": "webpack --config ./webpack.config.js --watch --progress --color",
     "push": "git add . && git commit -m 'f' && npm version patch && git push"
@@ -37,7 +38,6 @@
     "@babel/register": "^7.0.0",
     "babel-loader": "^8.0.5",
     "clean-webpack-plugin": "^1.0.1",
-    "node-loader": "^0.6.0",
     "webpack": "^4.29.3",
     "webpack-cli": "^3.2.3",
     "webpack-dev-server": "^3.1.14"

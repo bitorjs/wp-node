@@ -1,4 +1,3 @@
-
 // https://babel.docschina.org/    Babel 中文网
 module.exports = {
   "presets": [
@@ -19,11 +18,12 @@ module.exports = {
       "@babel/preset-env",
       {
         "targets": {
-          "browsers": [
-            // "last 1 Chrome versions",
-            // "Android >= 4.0", "ios >= 6", // 有问题，class 等node 语法未转换
-            'last 2 Chrome versions', 'last 2 Safari versions', 'last 2 Firefox versions',//
-          ]
+          "node": "current",
+          // "browsers": [
+          //   // "last 1 Chrome versions",
+          //   // "Android >= 4.0", "ios >= 6", // 有问题，class 等node 语法未转换
+          //   'last 2 Chrome versions', 'last 2 Safari versions', 'last 2 Firefox versions', //
+          // ]
         },
         //是否将ES6的模块化语法转译成其他类型
         //参数："amd" | "umd" | "systemjs" | "commonjs" | false，默认为'commonjs'
@@ -39,7 +39,7 @@ module.exports = {
         // false：不要为每个文件自动添加polyfill，也不要将“@ babel / polyfill”导入到单个polyfill。
       }
     ]
-  ], 
+  ],
   "plugins": [
     [
       "@babel/plugin-proposal-decorators",
