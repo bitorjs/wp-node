@@ -3,15 +3,8 @@ const WebpackMerge = require('webpack-merge');
 const WebpackShellPlugin = require('webpack-shell-plugin');
 const base = require('./webpack.base');
 
-
-// https://www.cnblogs.com/skylor/p/7008756.html 【webpack整理】
 module.exports = WebpackMerge(base, {
-  mode: 'development', // development || production or webpack --mode developmen
-  entry: [
-    /* 轮询文件内容 */
-    'webpack/hot/poll?1000',
-  ],
-  target: 'node',
+  mode: 'development',
   plugins: [
     /* HMR plugin */
     new webpack.HotModuleReplacementPlugin(),

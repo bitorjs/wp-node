@@ -17,16 +17,15 @@ fs.readdirSync('node_modules')
 
 // https://www.cnblogs.com/skylor/p/7008756.html 【webpack整理】
 module.exports = {
-  mode: 'production', // development || production or webpack --mode developmen
   entry: ['./src/server.js'],
   context: cwd,
-
   output: {
     filename: 'server.js',
     path: path.resolve(cwd, 'dist'),
     libraryTarget: 'commonjs', // window|var|umd|amd|commonjs|jsonp
   },
   externals: nodeModules,
+  target: 'node',
   node: {
     console: true,
     global: true,
@@ -40,7 +39,7 @@ module.exports = {
   },
   resolve: {
     extensions: [
-      '.js', '.json' // 少写 extensions 会引起 webpack-dev-server 强制使用 iframe 模式，否则会报错
+      '.js', '.json'
     ]
   },
   module: {
