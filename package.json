@@ -5,12 +5,11 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "supervisor --harmon ./dist/ddd.js",
-    "dev": "npm start",
-    "debug": "node --inspect-brk ./dist/ddd.js",
-    "server": "node ./dist/ddd.js",
-    "build": "webpack --config ./webpack.config.js --progress --color",
-    "build:watch": "webpack --config ./webpack.config.js --watch --progress --color",
+    "start": "webpack --config ./build/webpack.dev.js --watch --progress --color",
+    "dev": "supervisor --harmon ./dist/server.js",
+    "server": "node ./dist/server.js",
+    "debug": "node --inspect-brk ./dist/server.js",
+    "build": "webpack --config ./build/webpack.prod.js --progress --color",
     "push": "git add . && git commit -m 'f' && npm version patch && git push"
   },
   "repository": {
@@ -38,9 +37,12 @@
     "@babel/register": "^7.0.0",
     "babel-loader": "^8.0.5",
     "clean-webpack-plugin": "^1.0.1",
+    "rimraf": "^2.6.3",
     "webpack": "^4.29.3",
     "webpack-cli": "^3.2.3",
-    "webpack-dev-server": "^3.1.14"
+    "webpack-dev-server": "^3.1.14",
+    "webpack-merge": "^4.2.1",
+    "webpack-shell-plugin": "^0.5.0"
   },
   "dependencies": {
     "koa": "^2.7.0",

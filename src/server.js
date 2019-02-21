@@ -9,11 +9,9 @@ files.keys().map(key => {
   console.log(m.default || m)
 })
 
-
-
 // 添加路由
 router.get('/', async (ctx, next) => {
-  ctx.response.body = '<h1>index page</h1>'
+  ctx.response.body = '<h1>index32 page</h1>'
 })
 
 router.get('/home', async (ctx, next) => {
