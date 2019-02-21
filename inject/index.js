@@ -16,7 +16,8 @@ import config from '../config';
 // 自动注册 中间件
 const beforeRoutes = [],
   routes = [],
-  afterRoutes = [];
+  afterRoutes = [],
+  appExtends = [];
 
 export default class extends Koa {
 
@@ -48,12 +49,14 @@ export default class extends Koa {
   watch(requireContext) {
     requireContext.keys().map(key => {
       let m = requireContext(key);
-      if (key.match(/\/routes.*\.js$/)) {
+      if (key.match(/\/middlewares\/routes.*\.js$/)) {
         routes.push(m.default || m)
-      } else if (key.match(/\/before.*\.js$/)) {
+      } else if (key.match(/\/middlewares\/before.*\.js$/)) {
         beforeRoutes.push(m.default || m)
-      } else if (key.match(/\/after.*\.js$/)) {
+      } else if (key.match(/\/middlewares\/after.*\.js$/)) {
         afterRoutes.push(m.default || m)
+      } else if (key.match(/\/extend\/.*\.js$/)) {
+        appExtends.push(m.default || m)
       }
     })
   }
@@ -61,6 +64,10 @@ export default class extends Koa {
   start(client, port = 1029) {
 
     client(this)
+
+    appExtends.map(ex => {
+      ex(this)
+    })
 
     beforeRoutes.map(middleware => {
       this.use(middleware)

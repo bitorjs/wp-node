@@ -1,6 +1,7 @@
 import {
   Controller,
-  Get
+  Get,
+  Post
 } from 'bitorjs-decorators';
 import jwt from 'jsonwebtoken';
 
@@ -12,16 +13,18 @@ export default class {
     ctx.response.body = '<h1>index3102 page</h1>'
   }
 
-  @Get('/login')
+  @Post('/login')
   b(ctx, next) {
-    ctx.response.body = '<h1>已登录</h1>'
+    // ctx.response.body = '<h1>已登录</h1>'
+    // console.log('...login')
+    ctx.response.type = 'application/json;charset=UTF-8';
     const token = jwt.sign({
       name: 'user',
       _id: '1'
     }, 'my_token', {
       expiresIn: '2h'
     });
-    return ctx.body = {
+    return ctx.response.body = {
       code: '000001',
       data: token,
       msg: '登录成功'
