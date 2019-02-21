@@ -8,7 +8,9 @@ import koaLogger from 'koa-logger'; //请求日志的功能，包括请求的url
 import koaCors from 'koa2-cors';
 import path from 'path';
 
-export default app => {
+export default (ctx, next) => {
+  console.log('before...')
+  const app = ctx.app;
   app.use(koaLogger());
   app.use(koaHelmet());
   app.use(koaCors({
@@ -68,4 +70,6 @@ export default app => {
     threshold: 2048,
     flush: require('zlib').Z_SYNC_FLUSH
   }));
+
+  next();
 }

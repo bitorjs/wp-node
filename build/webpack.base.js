@@ -17,7 +17,7 @@ fs.readdirSync('node_modules')
 
 // https://www.cnblogs.com/skylor/p/7008756.html 【webpack整理】
 module.exports = {
-  entry: ['./src/server.js'],
+  entry: './index.js',
   context: cwd,
   output: {
     filename: 'server.js',

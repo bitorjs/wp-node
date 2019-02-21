@@ -9,6 +9,7 @@ export default class {
   @Get('/')
   a(ctx, next) {
     ctx.response.body = '<h1>index3102 page</h1>'
+    next()
   }
 
   @Get('/home')
