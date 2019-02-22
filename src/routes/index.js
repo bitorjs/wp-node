@@ -1,6 +1,7 @@
 import {
   Controller,
-  Get
+  Get,
+  Post
 } from 'bitorjs-decorators';
 
 @Controller('/')
@@ -12,12 +13,7 @@ export default class {
     next()
   }
 
-  @Get('/home')
-  b(ctx, next) {
-    ctx.response.body = '<h1>HOME page</h1>'
-  }
-
-  @Get('/404')
+  @Get('*')
   c(ctx, next) {
     ctx.response.body = '<h1>404 Not Found</h1>'
     ctx.redirect('/');

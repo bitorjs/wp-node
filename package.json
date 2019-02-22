@@ -10,7 +10,8 @@
     "server": "node ./dist/server.js",
     "debug": "node --inspect-brk ./dist/server.js",
     "build": "webpack --config ./build/webpack.prod.js --progress --color",
-    "push": "git add . && git commit -m 'f' && npm version patch && git push"
+    "push": "git add . && git commit -m 'f' && npm version patch && git push",
+    "a": "wp-bin"
   },
   "repository": {
     "type": "git",
@@ -35,6 +36,7 @@
     "@babel/plugin-transform-spread": "^7.2.2",
     "@babel/preset-env": "^7.3.1",
     "@babel/register": "^7.0.0",
+    "@node/cli": "^1.0.3",
     "babel-loader": "^8.0.5",
     "clean-webpack-plugin": "^1.0.1",
     "webpack": "^4.29.3",
@@ -58,6 +60,7 @@
     "koa-static": "^5.0.0",
     "koa2-cors": "^2.0.6",
     "koa2-http-proxy-middleware": "^1.0.1",
+    "promise-mysql": "^3.3.1",
     "reflect-metadata": "^0.1.13"
   }
 }

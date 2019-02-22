@@ -8,6 +8,13 @@ import koaLogger from 'koa-logger'; //请求日志的功能，包括请求的url
 import koaCors from 'koa2-cors';
 import path from 'path';
 
+import {
+  getUploadFileExt,
+  getUploadDirName,
+  checkDirExist,
+  getUploadFileName
+} from '../libs/index';
+
 const cwd = process.cwd();
 
 export default app => {
@@ -36,22 +43,32 @@ export default app => {
   app.use(koaBody({
     multipart: true, // 支持文件上传
     // encoding: 'gzip',
+    // jsonStrict: false, // for json
+    // strict: false, // for method
     formidable: {
       uploadDir: path.join(cwd, 'public/upload/'), // 设置文件上传目录
       keepExtensions: true, // 保持文件的后缀
       maxFieldsSize: 2 * 1024 * 1024, // 文件上传大小
       onFileBegin: (name, file) => { // 文件上传前的设置
-        // console.log(`name: ${name}`);
-        // console.log(file);
+        if (file.size === 0) return false;
+        console.log(name, file)
         // 获取文件后缀
         const ext = getUploadFileExt(file.name);
         // 最终要保存到的文件夹目录
-        const dir = path.join(__dirname, `public/upload/${getUploadDirName()}`);
+        const dirName = getUploadDirName();
+        const dir = path.join(cwd, `public/upload/${dirName}`);
         // 检查文件夹是否存在如果不存在则新建文件夹
         checkDirExist(dir);
+        // 获取文件名称
+        const fileName = getUploadFileName(ext);
         // 重新覆盖 file.path 属性
-        file.path = `${dir}/${getUploadFileName(ext)}`;
+        file.path = `${dir}/${fileName}`;
+        app.context.uploadpath = app.context.uploadpath ? app.context.uploadpath : {};
+        app.context.uploadpath[name] = `${dirName}/${fileName}`;
       },
+      onError: (err) => {
+        console.log(err);
+      }
     }
   }));
   app.use(koaSession({

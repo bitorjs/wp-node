@@ -7,66 +7,158 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Document</title>
   <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  <script>axios.defaults.withCredentials = true;</script>
 </head>
 
 <body>
-  sdfsdfds
+  <form id="defForm" method="POST" action="/upload" onsubmit="defFormTodo()">
+    <p>选择文件：<input name="ffile" type="file" /></p>
+    <p>First name: <input type="text" name="fname" value="a"></p>
+    <p>Last name: <input type="text" name="lname" value="a"></p>
+    <input id="defBtn" type="submit" value="提交 - 默认">
+  </form>
+
+  <form method="POST" action="/upload" enctype="multipart/form-data">
+    <p>选择文件：<input name="ffile" type="file" /></p>
+    <p>First name: <input type="text" name="fname" value="a"></p>
+    <p>Last name: <input type="text" name="lname" value="a"></p>
+    <input id="mulBtn" type="submit" value="提交 - multipart">
+  </form>
+
+  <form method="POST" action="/upload" enctype="multipart/form-data">
+    <p>选择文件：<input name="f1file" type="file" /></p>
+    <p>选择文件：<input name="f2file" type="file" /></p>
+    <p>First name: <input type="text" name="fname" value="a"></p>
+    <p>Last name: <input type="text" name="lname" value="a"></p>
+    <input id="mulBtn" type="submit" value="提交 - 多input file">
+  </form>
+
+  <form method="POST" action="/upload" enctype="multipart/form-data">
+    <p>选择文件：<input name="ffile" type="file" multiple="multiple" /></p>
+    <p>First name: <input type="text" name="fname" value="a"></p>
+    <p>Last name: <input type="text" name="lname" value="a"></p>
+    <input type="submit" value="提交 - 多文件上传">
+  </form>
+
+
+  <p>
+    <input id="aBtn" type="submit" value="提交 - json">
+    <input id="getBtn" type="submit" value="提交 -get json">
+
+    <input id="bBtn" type="submit" value="提交 - multipart">
+
+    <input id="cBtn" type="submit" value="提交 - urlencoded">
+  </p>
+
+  <p>
+    <button id="proxyBtn">Proxy 请求</button>
+    <button id="proxyLogin">Proxy Login请求</button>
+  </p>
 </body>
 <script>
-  axios.defaults.headers.post['Content-Type'] = 'application/json';
-  axios.post('/user/login', {
-      firstName: 'Fred',
-      lastName: 'Flintstone'
-    })
-    .then(function (response) {
-      console.log(response);
-    })
-    .catch(function (error) {
-      console.log(error);
-    });
-
-  let formData = new FormData()
-  formData.append('name', this.name)
-  formData.append('age', this.age)
-  formData.append('file', this.file)
-  let config = {
-    headers: {
-      'Content-Type': 'multipart/form-data'
-    }
+  function defFormTodo(ev) {
+    ev.preventDefault()
+    return false;
   }
 
-  axios.post('/user', formData, config)
-    .then(function (response) {
-      console.log(response);
-    })
-    .catch(function (error) {
-      console.log(error);
-    });
+  proxyBtn.onclick = function () {
+    axios.get('/proxy/style')
+      .then(function (response) {
+        console.log(response);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  }
 
-  axios({
-      url: '/user/info',
-      method: 'post',
-      data: {
-        relevanceId: 1,
-        pictureType: 4
-      },
-      // transformRequest: [function (data) {
-      //   let ret = ''
-      //   for (let it in data) {
-      //     ret += encodeURIComponent(it) + '=' + encodeURIComponent(data[it]) + '&'
-      //   }
-      //   return ret
-      // }],
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded'
-      }
-    })
-    .then(function (response) {
-      console.log(response);
-    })
-    .catch(function (error) {
-      console.log(error);
-    });
+  proxyLogin.onclick = function () {
+    axios.post('/proxy/login')
+      .then(function (response) {
+        console.log(response);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  }
+
+  aBtn.onclick = function () {
+    axios.post('/user/login', {
+        firstName: 'Fred',
+        lastName: 'Flintstone'
+      })
+      .then(function (response) {
+        console.log(response);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  }
+
+  getBtn.onclick = function () {
+    axios.get('/user/login', {
+        params: {
+          id: 12345,
+          name: 'user'
+        }
+      })
+      .then(function (response) {
+        console.log(response);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  }
+
+
+  bBtn.onclick = function () {
+    let formData = new FormData()
+    formData.append('name', 'a')
+    formData.append('age', 'b')
+    formData.append('file', 'c')
+    let config = {
+      // headers: {
+      //   'Content-Type': 'multipart/form-data'
+      // }
+    }
+
+    axios.post('/user', formData, config)
+      .then(function (response) {
+        console.log(response);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+
+  }
+
+
+  cBtn.onclick = function () {
+
+    axios({
+        url: '/user/info',
+        method: 'post',
+        data: {
+          relevanceId: 1,
+          pictureType: 4
+        },
+        // transformRequest: [function (data) {
+        //   let ret = ''
+        //   for (let it in data) {
+        //     ret += encodeURIComponent(it) + '=' + encodeURIComponent(data[it]) + '&'
+        //   }
+        //   return ret
+        // }],
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded'
+        }
+      })
+      .then(function (response) {
+        console.log(response);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  }
 </script>
 
 </html>
