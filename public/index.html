@@ -24,6 +24,49 @@
     .catch(function (error) {
       console.log(error);
     });
+
+  let formData = new FormData()
+  formData.append('name', this.name)
+  formData.append('age', this.age)
+  formData.append('file', this.file)
+  let config = {
+    headers: {
+      'Content-Type': 'multipart/form-data'
+    }
+  }
+
+  axios.post('/user', formData, config)
+    .then(function (response) {
+      console.log(response);
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+
+  axios({
+      url: '/user/info',
+      method: 'post',
+      data: {
+        relevanceId: 1,
+        pictureType: 4
+      },
+      // transformRequest: [function (data) {
+      //   let ret = ''
+      //   for (let it in data) {
+      //     ret += encodeURIComponent(it) + '=' + encodeURIComponent(data[it]) + '&'
+      //   }
+      //   return ret
+      // }],
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded'
+      }
+    })
+    .then(function (response) {
+      console.log(response);
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
 </script>
 
 </html>

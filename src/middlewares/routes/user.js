@@ -8,15 +8,16 @@ import jwt from 'jsonwebtoken';
 @Controller('/user')
 export default class {
 
-  @Get('/')
+  @Post('/')
   c(ctx, next) {
-    ctx.response.body = '<h1>index3102 page</h1>'
+    return ctx.response.body = {
+      code: '000001',
+      msg: '登录成功'
+    }
   }
 
   @Post('/login')
   b(ctx, next) {
-    // ctx.response.body = '<h1>已登录</h1>'
-    // console.log('...login')
     ctx.response.type = 'application/json;charset=UTF-8';
     const token = jwt.sign({
       name: 'user',
@@ -31,8 +32,11 @@ export default class {
     }
   }
 
-  @Get('*')
+  @Post('/info')
   a(ctx, next) {
-    ctx.response.body = '<h1>未找到 user 中指定页面</h1>'
+    return ctx.response.body = {
+      code: '000001',
+      msg: 'Info'
+    }
   }
 }

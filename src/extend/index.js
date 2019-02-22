@@ -1,4 +1,4 @@
-import koaBody from 'koa-body'; //koa-bodyparser内置Request Body的解析器, 支持x-www-form-urlencoded, application/json等格式的请求体，但不支持form-data的请求体,，需要借助 formidable 这个库，也可以直接使用 koa-body 或 koa-better-body
+import koaBody from 'koa-body'; //koa-bodyparser内置Request Body的解析器, 支持x-www-form-urlencoded, application/json等格式的请求体，但不支持form-data的请求体,，需要借助 formidable 这个库，也可以直接使用 koa-body 支持multipart，urlencoded和json请求体
 import koaStatic from 'koa-static'; // 配置静态文件服务的中间件
 import koaSession from 'koa-session'; //支持将会话信息存储在本地Cookie，也支持存储在如Redis, MongoDB这样的外部存储设备
 import koaJWT from 'koa-jwt'; //JWT(Json Web Tokens)
@@ -34,7 +34,7 @@ export default app => {
   // }));
   app.use(koaStatic(path.join(cwd, 'public')));
   app.use(koaBody({
-    // multipart: true, // 支持文件上传
+    multipart: true, // 支持文件上传
     // encoding: 'gzip',
     formidable: {
       uploadDir: path.join(cwd, 'public/upload/'), // 设置文件上传目录
@@ -43,6 +43,14 @@ export default app => {
       onFileBegin: (name, file) => { // 文件上传前的设置
         // console.log(`name: ${name}`);
         // console.log(file);
+        // 获取文件后缀
+        const ext = getUploadFileExt(file.name);
+        // 最终要保存到的文件夹目录
+        const dir = path.join(__dirname, `public/upload/${getUploadDirName()}`);
+        // 检查文件夹是否存在如果不存在则新建文件夹
+        checkDirExist(dir);
+        // 重新覆盖 file.path 属性
+        file.path = `${dir}/${getUploadFileName(ext)}`;
       },
     }
   }));
