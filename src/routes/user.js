@@ -3,7 +3,6 @@ import {
   Get,
   Post
 } from 'bitorjs-decorators';
-import jwt from 'jsonwebtoken';
 
 @Controller('/user')
 export default class {
@@ -35,20 +34,14 @@ export default class {
 
   @Post('/login')
   b(ctx, next) {
-    ctx.response.type = 'application/json;charset=UTF-8';
-    const token = jwt.sign({
-      name: 'user',
-      _id: '1'
-    }, 'my_token', {
-      expiresIn: '2h'
-    });
+
     return ctx.response.body = {
       code: '000001',
-      token: token,
       msg: '登录成功',
       data: {
         url: ctx.url,
-        query: ctx.request.body,
+        query: ctx.query,
+        body: ctx.request.body,
         request: ctx.request
       }
     }

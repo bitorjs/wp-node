@@ -6,8 +6,16 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Document</title>
-  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  <script src="https://cdn.bootcss.com/axios/0.18.0/axios.js"></script>
   <script>axios.defaults.withCredentials = true;</script>
+  <script>
+    axios.interceptors.request.use(function(config){
+    // console.log(config)
+    // config.headers.token = localStorage.token;
+    config.headers.common['Authorization'] = 'Bearer ' + localStorage.token;
+    return config;
+  })
+  </script>
 </head>
 
 <body>
@@ -42,23 +50,43 @@
 
 
   <p>
+    <input id="loginBtn" type="submit" value="登陆">
+    <input id="unloginBtn" type="submit" value="退出登陆">
     <input id="aBtn" type="submit" value="提交 - json">
     <input id="getBtn" type="submit" value="提交 -get json">
-
     <input id="bBtn" type="submit" value="提交 - multipart">
-
     <input id="cBtn" type="submit" value="提交 - urlencoded">
   </p>
 
   <p>
-    <button id="proxyBtn">Proxy 请求</button>
-    <button id="proxyLogin">Proxy Login请求</button>
+    <button id="proxyBtn">Proxy Get请求</button>
+    <button id="proxyLogin">Proxy Post请求</button>
   </p>
+  <div>
+    <input type="text" id="content" />
+    <input type="button" value="发送" id="send" />
+    <input type="button" value="关闭" id="close" />
+  </div>
 </body>
 <script>
   function defFormTodo(ev) {
     ev.preventDefault()
     return false;
+  }
+
+  loginBtn.onclick = function () {
+    axios.post('/login')
+      .then(function (response) {
+        console.log(response);
+        localStorage.token = response.data.token;
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  }
+
+  unloginBtn.onclick = function () {
+    delete localStorage.token;
   }
 
   proxyBtn.onclick = function () {
@@ -82,7 +110,7 @@
   }
 
   aBtn.onclick = function () {
-    axios.post('/user/login', {
+    axios.post('/user/login?a=b&b=c', {
         firstName: 'Fred',
         lastName: 'Flintstone'
       })
@@ -159,6 +187,35 @@
         console.log(error);
       });
   }
+</script>
+<script type="text/javascript">
+  /* 封装 WebSocket 实例化的方法  */
+  var CreateWebSocket = (function () {
+    return function (urlValue) {
+      if (window.WebSocket) return new WebSocket(urlValue);
+      if (window.MozWebSocket) return new MozWebSocket(urlValue);
+      return false;
+    }
+  })();
+  /* 实例化 WebSocket 连接对象, 地址为 ws 协议 */
+  var webSocket = CreateWebSocket("ws://localhost:1029");
+  /* 接收到服务端的消息时 */
+  webSocket.onmessage = function (msg) {
+    console.log("服务端说:" + msg.data);
+  };
+  /* 关闭时 */
+  webSocket.onclose = function () {
+    console.log("关闭连接");
+  };
+  /* 发送消息 */
+  document.getElementById("send").onclick = function () {
+    var str = document.getElementById("content").value;
+    webSocket.send(str);
+  }
+  /* 关闭消息 */
+  document.getElementById("close").addEventListener("click", function () {
+    webSocket.close();
+  });
 </script>
 
 </html>

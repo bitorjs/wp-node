@@ -1,15 +1,17 @@
-var mysql = require('promise-mysql');
+import mysql from 'mysql';
 
-mysql.createConnection({
-    host: 'localhost',
-    user: 'sauron',
-    password: 'theonetruering',
-    database: 'mordor'
-}).then(function (conn) {
-    var result = conn.query('select `name` from hobbits');
-    conn.end();
-    return result;
-}).then(function (rows) {
-    // Logs out a list of hobbits
-    console.log(rows);
-});
+// var connection = mysql.createConnection({
+//   host: 'localhost',
+//   user: 'me',
+//   password: 'secret',
+//   database: 'my_db'
+// });
+
+// connection.connect();
+
+// connection.query('SELECT 1 + 1 AS solution', function (error, results, fields) {
+//   if (error) throw error;
+//   console.log('The solution is: ', results[0].solution);
+// });
+
+// connection.end();

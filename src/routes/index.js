@@ -3,6 +3,8 @@ import {
   Get,
   Post
 } from 'bitorjs-decorators';
+import jwt from 'jsonwebtoken';
+
 
 @Controller('/')
 export default class {
@@ -13,9 +15,19 @@ export default class {
     next()
   }
 
-  @Get('*')
-  c(ctx, next) {
-    ctx.response.body = '<h1>404 Not Found</h1>'
-    ctx.redirect('/');
+  @Post('/login')
+  a(ctx, next) {
+    ctx.type = 'application/json;charset=UTF-8';
+    const token = jwt.sign({
+      name: 'huangzj',
+      _id: '10010'
+    }, '密钥', {
+      expiresIn: '2h'
+    });
+    return ctx.body = {
+      code: '000001',
+      token: token,
+      msg: '登录成功'
+    }
   }
 }
