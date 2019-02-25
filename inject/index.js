@@ -30,7 +30,7 @@ export default class extends Koa {
       } else {
         path = `${subroute.path}`
       }
-      console.log(path)
+      console.log(path, Object.prototype.toString.call(instance[subroute.prototype]))
       router[subroute.method.toLowerCase()](path, instance[subroute.prototype].bind(instance))
     })
 

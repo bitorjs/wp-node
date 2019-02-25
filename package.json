@@ -45,6 +45,7 @@
     "webpack-shell-plugin": "^0.5.0"
   },
   "dependencies": {
+    "axios": "^0.18.0",
     "bitorjs-decorators": "^1.0.1",
     "jsonwebtoken": "^8.5.0",
     "koa": "^2.7.0",
@@ -52,14 +53,19 @@
     "koa-compress": "^3.0.0",
     "koa-helmet": "^4.0.0",
     "koa-jwt": "^3.5.1",
+    "koa-log4": "^2.3.2",
     "koa-logger": "^3.2.0",
+    "koa-nunjucks-render": "^2.0.1",
     "koa-proxies": "^0.8.1",
     "koa-router": "^7.4.0",
     "koa-sso": "^1.2.2",
     "koa-static": "^5.0.0",
+    "koa-views": "^6.1.5",
     "koa-websocket": "^5.0.1",
     "koa2-cors": "^2.0.6",
+    "log4js": "^4.0.2",
     "mysql": "^2.16.0",
+    "nunjucks": "^3.1.7",
     "plugin-a": "file:plugins/plugin-a",
     "redis": "^2.8.0"
   }

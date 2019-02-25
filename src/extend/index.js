@@ -6,6 +6,12 @@ import koaCompress from 'koa-compress'; // 启用类似Gzip的压缩技术减少
 import koaLogger from 'koa-logger'; //请求日志的功能，包括请求的url、状态码、响应时间、响应体大小等信息,  koa-bunyan-logger 提供了更丰富的功能。
 import koaCors from 'koa2-cors';
 import path from 'path';
+import log4js from 'koa-log4';
+import nunjucksRender from 'koa-nunjucks-render';
+import nunjucks from 'nunjucks';
+import views from 'koa-views';
+
+
 
 
 import {
@@ -18,7 +24,16 @@ import {
 const cwd = process.cwd();
 
 export default app => {
-  app.use(koaLogger());
+  // app.use(log4js.koaLogger(log4js.getLogger("cheese"), {
+  //   level: 'auto'
+  // }))
+  app.use(views(__dirname + '../views', {
+    'extension': 'html',
+    map: {
+      html: 'nunjucks'
+    }
+  }))
+  // app.use(koaLogger());
   app.use(koaHelmet());
   app.use(koaCors({
     origin: function (ctx) {
@@ -36,7 +51,7 @@ export default app => {
   app.use(koaJWT({
     secret: '密钥'
   }).unless({
-    path: ['/', '/login', '/sso/login']
+    path: ['/', '/login', '/sso/login', '/views', '/favicon.ico']
   }));
 
   app.use(koaStatic(path.join(cwd, 'public')));

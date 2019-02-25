@@ -25,6 +25,8 @@ module.exports = {
   },
   externals: nodeModules,
   target: 'node',
+  // 增加node配置
+  // 官方文档：这些选项可以配置是否 polyfill 或 mock 某些 Node.js全局变量和模块。这可以使最初为 Node.js 环境编写的代码，在其他环境（如浏览器）中运行。
   // node: {
   //   console: true,
   //   global: true,

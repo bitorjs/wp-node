@@ -5,18 +5,31 @@ import {
 } from 'bitorjs-decorators';
 import jwt from 'jsonwebtoken';
 
+import axios from '../libs/axios';
+
 
 @Controller('/')
 export default class {
 
-  @Get('/')
-  a(ctx, next) {
-    ctx.response.body = '<h1>index3102 page</h1>'
-    next()
+  @Get('/views')
+  async a(ctx, next) {
+    // ctx.body = 'sss'
+    try {
+      return await ctx.render('user');
+    } catch (error) {
+      console.log(error)
+    }
+
+    // axios.post('/login').then(res => {
+    //   console.log('axios ... post ')
+    // }).catch(err => {
+    //   console.log('axios post ... ')
+    // })
   }
 
   @Post('/login')
-  a(ctx, next) {
+  b(ctx, next) {
+    console.log('login ........', ctx.url)
     ctx.type = 'application/json;charset=UTF-8';
     const token = jwt.sign({
       name: 'huangzj',
