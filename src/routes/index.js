@@ -14,11 +14,11 @@ export default class {
   @Get('/views')
   async a(ctx, next) {
     // ctx.body = 'sss'
-    try {
-      return await ctx.render('user');
-    } catch (error) {
-      console.log(error)
-    }
+    // try {
+    await ctx.render('user');
+    // } catch (error) {
+    //   console.log(error)
+    // }
 
     // axios.post('/login').then(res => {
     //   console.log('axios ... post ')

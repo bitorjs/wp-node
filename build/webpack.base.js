@@ -27,20 +27,20 @@ module.exports = {
   target: 'node',
   // 增加node配置
   // 官方文档：这些选项可以配置是否 polyfill 或 mock 某些 Node.js全局变量和模块。这可以使最初为 Node.js 环境编写的代码，在其他环境（如浏览器）中运行。
-  // node: {
-  //   console: true,
-  //   global: true,
-  //   process: true,
-  //   Buffer: true,
-  //   filename: true,
-  //   dirname: true,
-  //   setImmediate: true,
-  //   __filename: false,
-  //   __dirname: false
-  // },
+  node: {
+    console: true,
+    global: true,
+    process: true,
+    Buffer: true,
+    filename: true,
+    dirname: true,
+    setImmediate: true,
+    __filename: false,
+    __dirname: false
+  },
   resolve: {
     extensions: [
-      '.js', '.json'
+      '.js', '.json', 'ejs'
     ]
   },
   module: {
