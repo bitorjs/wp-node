@@ -15,11 +15,12 @@ export default class {
   async abbb(ctx, next) {
     // ctx.set('Content-Type', 'text/html')
     // 
-    try {
-      await ctx.render('user');
-    } catch (error) {
-      console.log(error)
-    }
+    await ctx.render('user');
+    // try {
+
+    // } catch (error) {
+    //   console.log(error)
+    // }
   }
 
   @Post('/login')

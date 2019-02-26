@@ -30,8 +30,8 @@ export default class extends Koa {
       } else {
         path = `${subroute.path}`
       }
-      console.log(path, Object.prototype.toString.call(instance[subroute.prototype]))
-      router[subroute.method.toLowerCase()](path, instance[subroute.prototype].bind(instance))
+      console.log(path, subroute.method.toLowerCase(), Object.prototype.toString.call(instance[subroute.prototype]))
+      router[subroute.method.toLowerCase()](path, async (ctx, next) => await instance[subroute.prototype].call(instance, ctx, next))
     })
 
     // 调用路由中间件
@@ -75,8 +75,8 @@ export default class extends Koa {
       this.use(middleware)
     })
 
-    routes.map(route => {
-      this.registerRoutes(route)
+    routes.map(routeCtrl => {
+      this.registerRoutes(routeCtrl)
     })
 
     afterRoutes.map(middleware => {
