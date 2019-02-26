@@ -12,19 +12,14 @@ import axios from '../libs/axios';
 export default class {
 
   @Get('/views')
-  async a(ctx, next) {
-    // ctx.body = 'sss'
-    // try {
-    await ctx.render('user');
-    // } catch (error) {
-    //   console.log(error)
-    // }
-
-    // axios.post('/login').then(res => {
-    //   console.log('axios ... post ')
-    // }).catch(err => {
-    //   console.log('axios post ... ')
-    // })
+  async abbb(ctx, next) {
+    // ctx.set('Content-Type', 'text/html')
+    // 
+    try {
+      await ctx.render('user');
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   @Post('/login')

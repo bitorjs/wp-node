@@ -21,7 +21,7 @@ export default app => {
   // app.use(log4js.koaLogger(log4js.getLogger("cheese"), {
   //   level: 'auto'
   // }))
-  app.use(views(path.join(__dirname, '../src/html'), {
+  app.use(views(path.join(__dirname, '../app/views'), {
     extension: 'ejs',
     // map: {
     //   html: 'nunjucks'

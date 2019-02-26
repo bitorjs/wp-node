@@ -10,8 +10,7 @@
     "server": "node ./dist/server.js",
     "debug": "node --inspect-brk ./dist/server.js",
     "build": "webpack --config ./build/webpack.prod.js --progress --color",
-    "push": "git add . && git commit -m 'f' && npm version patch && git push",
-    "a": "wp-bin"
+    "push": "git add . && git commit -m 'f' && npm version patch && git push"
   },
   "repository": {
     "type": "git",
@@ -38,7 +37,6 @@
     "@babel/register": "^7.0.0",
     "babel-loader": "^8.0.5",
     "clean-webpack-plugin": "^1.0.1",
-    "ejs-loader": "^0.3.1",
     "webpack": "^4.29.3",
     "webpack-cli": "^3.2.3",
     "webpack-dev-server": "^3.1.14",
@@ -48,7 +46,6 @@
   "dependencies": {
     "axios": "^0.18.0",
     "bitorjs-decorators": "^1.0.1",
-    "ejs": "^2.6.1",
     "jsonwebtoken": "^8.5.0",
     "koa": "^2.7.0",
     "koa-body": "^4.0.8",

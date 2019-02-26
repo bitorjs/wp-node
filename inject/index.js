@@ -41,7 +41,7 @@ export default class extends Koa {
   watch(requireContext) {
     requireContext.keys().map(key => {
       let m = requireContext(key);
-      if (key.match(/\/routes.*\.js$/)) {
+      if (key.match(/\/controller.*\.js$/)) {
         routes.push(m.default || m)
       } else if (key.match(/\/middlewares\/before.*\.js$/)) {
         console.log('before', key)
