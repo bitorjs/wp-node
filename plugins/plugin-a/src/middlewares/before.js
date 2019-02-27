@@ -1,3 +1,3 @@
-export default (ctx, next) => {
-  next()
+export default async (ctx, next) => {
+  await next()
 }

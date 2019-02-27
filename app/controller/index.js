@@ -17,10 +17,10 @@ export default class {
     // 
     await ctx.render('user');
     // try {
-
     // } catch (error) {
     //   console.log(error)
     // }
+    console.log('page ...')
   }
 
   @Post('/login')

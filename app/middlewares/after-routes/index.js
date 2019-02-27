@@ -1,4 +1,4 @@
-export default (ctx, next) => {
+export default async (ctx, next) => {
   console.log('after routes');
-  next()
+  await next()
 }

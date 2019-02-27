@@ -3,9 +3,10 @@ import koaStatic from 'koa-static'; // 配置静态文件服务的中间件
 import koaJWT from 'koa-jwt'; //JWT(Json Web Tokens)
 import koaHelmet from 'koa-helmet'; //增加如Strict-Transport-Security, X-Frame-Options, X-Frame-Options等网络安全HTTP头
 import koaCompress from 'koa-compress'; // 启用类似Gzip的压缩技术减少传输内容
-import koaLogger from 'koa-logger'; //请求日志的功能，包括请求的url、状态码、响应时间、响应体大小等信息,  koa-bunyan-logger 提供了更丰富的功能。
 import koaCors from 'koa2-cors';
+import views from 'koa-views';
 import path from 'path';
+import logger from '../middlewares/log';
 
 
 import {
@@ -14,14 +15,23 @@ import {
   checkDirExist,
   getUploadFileName
 } from '../libs/index';
-
+const ip = require("ip");
 const cwd = process.cwd();
 export default app => {
-  // app.use(log4js.koaLogger(log4js.getLogger("cheese"), {
-  //   level: 'auto'
-  // }))
+  app.use(logger({
+    env: 'dev',
+    projectName: 'koa2&log4js',
+    appLogLevel: 'info',
+    dir: 'logs',
+    serverIp: ip.address()
+  }))
+  app.use(views(path.join(__dirname, '../app/view'), {
+    extension: 'html',
+    map: {
+      html: 'nunjucks'
+    }
+  }))
 
-  // app.use(koaLogger());
   app.use(koaHelmet());
   app.use(koaCors({
     origin: function (ctx) {
@@ -39,7 +49,7 @@ export default app => {
   app.use(koaJWT({
     secret: '密钥'
   }).unless({
-    path: ['/', '/login', '/sso/login', '/views', '/favicon.ico']
+    path: ['/', '/login', '/sso/login', '/views', '/page', '/favicon.ico']
   }));
 
   app.use(koaStatic(path.join(cwd, 'public')));
@@ -81,5 +91,8 @@ export default app => {
     threshold: 2048,
     flush: require('zlib').Z_SYNC_FLUSH
   }));
-
+  // app.use((ctx, next) => {
+  //   console.log('...>>@@@@@')
+  //   next()
+  // })
 }

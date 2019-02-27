@@ -17,3 +17,8 @@ axios
 
 
 ```
+
+```
+  ctx.log.info('from before middleware')
+
+```
