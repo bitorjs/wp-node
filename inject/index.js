@@ -18,9 +18,8 @@ export default class extends Koa {
   constructor() {
     super()
 
-    // const _use = this.use
-    // const fn = x => Object.prototype.toString.call(x) === '[object AsyncFunction]' ? convert(x) : async (ctx, next) => await convert(x)(ctx, next);
-    // this.use = x => _use.call(this, fn(x))
+    const _use = this.use
+    this.use = x => _use.call(this, convert(x))
   }
 
   registerRoutes(RouterController) {
@@ -34,7 +33,7 @@ export default class extends Koa {
       } else {
         path = `${subroute.path}`
       }
-      console.log(path, subroute.method.toLowerCase(), Object.prototype.toString.call(instance[subroute.prototype]))
+      console.log(path, subroute.method.toLowerCase())
       router[subroute.method.toLowerCase()](path, instance[subroute.prototype].bind(instance))
     })
   }
@@ -45,21 +44,18 @@ export default class extends Koa {
       if (key.match(/\/controller.*\.js$/)) {
         routes.push(m.default || m)
       } else if (key.match(/\/middlewares\/before.*\.js$/)) {
-        console.log('before', key)
         beforeRoutes.push(m.default || m)
       } else if (key.match(/\/middlewares\/after.*\.js$/)) {
         afterRoutes.push(m.default || m)
       } else if (key.match(/\/extend\/.*\.js$/)) {
         appExtends.push(m.default || m)
       } else if (key.match(/\/plugins\.js$/)) {
-        console.log('...plugins')
         // plugins.push(m.default || m)
         let plugins = m.default || m;
 
         plugins.map(item => {
           item.module(this)
         })
-        // client(this);
       }
     })
   }
@@ -77,18 +73,10 @@ export default class extends Koa {
       console.log(Object.prototype.toString.call(middleware))
     })
 
-    // this.use(async (ctx, next) => {
-    //   await next()
-    // })
-
-
     routes.map(routeCtrl => {
       this.registerRoutes(routeCtrl)
     })
     this.use(router.routes())
-
-
-
 
     afterRoutes.map(middleware => {
       this.use(middleware)
