@@ -25,6 +25,13 @@ export default app => {
     dir: 'logs',
     serverIp: ip.address()
   }))
+  // app.use(logger({
+  //   env: 'dev',
+  //   projectName: 'koa2&log4js',
+  //   appLogLevel: 'error',
+  //   dir: 'logs',
+  //   serverIp: ip.address()
+  // }))
   app.use(views(path.join(__dirname, '../app/view'), {
     extension: 'html',
     map: {

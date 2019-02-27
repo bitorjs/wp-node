@@ -1,5 +1,7 @@
 const log4js = require('log4js');
 const methods = ["trace", "debug", "info", "warn", "error", "fatal", "mark"];
+const contextLogger = {};
+const appenders = {};
 
 // 提取默认公用参数对象
 const baseInfo = {
@@ -10,10 +12,30 @@ const baseInfo = {
   serverIp: '0.0.0.0' // 默认情况下服务器 ip 地址
 };
 
-module.exports = options => {
-  const contextLogger = {};
-  const appenders = {};
 
+appenders.access = {
+  type: 'dateFile',
+  // filename: `${dir}/task`,
+  pattern: '-yyyy-MM-dd.log',
+  alwaysIncludePattern: true
+};
+
+appenders.error = {
+  type: 'dateFile',
+  // filename: `${dir}/task`,
+  pattern: '-yyyy-MM-dd.log',
+  alwaysIncludePattern: true
+};
+
+const logger = log4js.getLogger('access');
+const error = log4js.getLogger('error');
+methods.forEach(method => {
+  contextLogger[method] = (message) => {
+    logger[method](message)
+  }
+});
+
+export default options => {
   const opts = Object.assign({}, baseInfo, options || {});
 
   // 需要的变量解构 方便使用
@@ -25,12 +47,9 @@ module.exports = options => {
     projectName
   } = opts;
 
-  appenders.cheese = {
-    type: 'dateFile',
-    filename: `${dir}/task`,
-    pattern: '-yyyy-MM-dd.log',
-    alwaysIncludePattern: true
-  };
+  appenders.access.filename = `${dir}/task`;
+  appenders.error.filename = `${dir}/task`;
+
 
   // 环境变量为dev local development 认为是开发环境
   if (env === "dev" || env === "local" || env === "development") {
@@ -48,14 +67,11 @@ module.exports = options => {
     }
   };
 
-  const logger = log4js.getLogger('cheese');
+
+
   // 配置 log4js
   log4js.configure(config);
-  methods.forEach(method => {
-    contextLogger[method] = (message) => {
-      logger[method](message)
-    }
-  });
+
 
 
   return async (ctx, next) => {
