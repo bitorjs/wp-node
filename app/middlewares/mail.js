@@ -1,7 +1,5 @@
 import nodemailer from 'nodemailer';
 
-
-
 export default (options={})=>{
   const transporter = nodemailer.createTransport(Object.assign({
     //https://github.com/andris9/nodemailer-wellknown#supported-services 支持列表

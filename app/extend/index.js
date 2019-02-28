@@ -10,6 +10,7 @@ import {
   accessLogger
 } from '../middlewares/log';
 import mail from '../middlewares/mail';
+import redis from '../store/redis';
 
 import {
   getUploadFileExt,
@@ -17,9 +18,13 @@ import {
   checkDirExist,
   getUploadFileName
 } from '../libs/index';
+
+
+
 const ip = require("ip");
 const cwd = process.cwd();
 export default app => {
+  app.use(redis());
   app.use(accessLogger({
     env: 'dev',
     projectName: 'koa2&log4js',
@@ -52,7 +57,7 @@ export default app => {
   app.use(koaJWT({
     secret: '密钥'
   }).unless({
-    path: ['/', '/login', '/sso/login', '/views', '/page', '/favicon.ico']
+  path: ['/', '/login', '/sso/login', '/views', '/page', '/favicon.ico',/\/graphql.*/]
   }));
 
   app.use(koaStatic(path.join(cwd, 'public')));
