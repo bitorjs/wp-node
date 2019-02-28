@@ -2,7 +2,6 @@ import KoaAppliction from './inject';
 import config from './config';
 // import views from 'koa-views';
 // import KoaRouter from 'koa-router';
-import ss from 'graphql/index';
 
 // import path from 'path';
 let client = app => {
