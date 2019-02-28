@@ -6,7 +6,9 @@ import koaCompress from 'koa-compress'; // 启用类似Gzip的压缩技术减少
 import koaCors from 'koa2-cors';
 import views from 'koa-views';
 import path from 'path';
-import logger from '../middlewares/log';
+import {
+  accessLogger
+} from '../middlewares/log';
 
 
 import {
@@ -18,20 +20,13 @@ import {
 const ip = require("ip");
 const cwd = process.cwd();
 export default app => {
-  app.use(logger({
+  app.use(accessLogger({
     env: 'dev',
     projectName: 'koa2&log4js',
     appLogLevel: 'info',
     dir: 'logs',
     serverIp: ip.address()
   }))
-  // app.use(logger({
-  //   env: 'dev',
-  //   projectName: 'koa2&log4js',
-  //   appLogLevel: 'error',
-  //   dir: 'logs',
-  //   serverIp: ip.address()
-  // }))
   app.use(views(path.join(__dirname, '../app/view'), {
     extension: 'html',
     map: {

@@ -13,29 +13,16 @@ const baseInfo = {
 };
 
 
-appenders.access = {
-  type: 'dateFile',
-  // filename: `${dir}/task`,
-  pattern: '-yyyy-MM-dd.log',
-  alwaysIncludePattern: true
-};
 
-appenders.error = {
-  type: 'dateFile',
-  // filename: `${dir}/task`,
-  pattern: '-yyyy-MM-dd.log',
-  alwaysIncludePattern: true
-};
 
 const logger = log4js.getLogger('access');
-const error = log4js.getLogger('error');
 methods.forEach(method => {
   contextLogger[method] = (message) => {
     logger[method](message)
   }
 });
 
-export default options => {
+export const accessLogger = options => {
   const opts = Object.assign({}, baseInfo, options || {});
 
   // 需要的变量解构 方便使用
@@ -47,8 +34,20 @@ export default options => {
     projectName
   } = opts;
 
-  appenders.access.filename = `${dir}/task`;
-  appenders.error.filename = `${dir}/task`;
+  appenders.access = {
+    type: 'dateFile',
+    filename: `${dir}/task`,
+    pattern: '-yyyy-MM-dd.log',
+    alwaysIncludePattern: true
+  };
+
+  appenders.error = {
+    type: 'dateFile',
+    filename: `${dir}/task`,
+    pattern: '-yyyy-MM-dd.log',
+    alwaysIncludePattern: true
+  };
+
 
 
   // 环境变量为dev local development 认为是开发环境
@@ -66,8 +65,6 @@ export default options => {
       }
     }
   };
-
-
 
   // 配置 log4js
   log4js.configure(config);
@@ -95,7 +92,6 @@ export default options => {
     };
 
     client = JSON.stringify(client);
-
 
     // 为 ctx 增加 log 方法
     Object.defineProperty(ctx, 'log', {
