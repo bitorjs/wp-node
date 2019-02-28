@@ -9,7 +9,7 @@ import path from 'path';
 import {
   accessLogger
 } from '../middlewares/log';
-
+import mail from '../middlewares/mail';
 
 import {
   getUploadFileExt,
@@ -27,6 +27,7 @@ export default app => {
     dir: 'logs',
     serverIp: ip.address()
   }))
+  app.use(mail())
   app.use(views(path.join(__dirname, '../app/view'), {
     extension: 'html',
     map: {
