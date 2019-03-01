@@ -23,7 +23,7 @@ export default class {
         },
       });
 
-      let qr = await graphql(schema, ctx.request.body.data, {},{});
+      let qr = await graphql(schema, ctx.request.body.query, {},{});
 
       ctx.body = qr;
     } catch (error) {
