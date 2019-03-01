@@ -40,16 +40,20 @@ module.exports = {
   },
   resolve: {
     extensions: [
-      '.js', '.json'
+      '.js', '.json', '.mjs',
     ]
   },
   module: {
-    unknownContextCritical: false,
     rules: [{
       test: /\.js$/,
       // exclude: /node_modules/,
       loader: "babel-loader",
       options: babel
+    },
+    {
+      test: /\.mjs$/,
+      include: /node_modules/,
+      type: 'javascript/auto'
     }]
   },
   watchOptions: {

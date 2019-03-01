@@ -1,0 +1,43 @@
+{
+  "dependencies": {
+    "apollo-server": "^2.2.5",
+    "dataloader": "^1.4.0",
+    "graphql-compose": "^5.3.4",
+    "knex": "^0.16.2",
+    "lodash": "^4.17.10",
+    "md5": "^2.2.1",
+    "mysql": "^2.16.0",
+    "mysql-utilities": "^1.0.13"
+  },
+  "deprecated": false,
+  "description": "Generates GraphQL types and resolvers from a MySQL database.",
+  "devDependencies": {
+    "debug": "^4.1.0",
+    "graphql": "^14.1.1",
+    "jest": "^23.6.0",
+    "nodemon": "^1.17.3"
+  },
+  "jest": {
+    "roots": [
+      "<rootDir>/tests/"
+    ],
+    "testEnvironment": "node"
+  },
+  "keywords": [
+    "graphql",
+    "graphql-compose",
+    "graphql-compose-mysql"
+  ],
+  "license": "MIT",
+  "main": "src/main.js",
+  "name": "graphql-compose-mysql",
+  "peerDependencies": {
+    "graphql-compose": ">=5.3.4"
+  },
+  "scripts": {
+    "playground": "DEBUG='graphql-compose-mysql' node ./src/__playground__.js",
+    "start": "node ./src/index.js",
+    "test": "DEBUG_DEPTH=15 DEBUG='graphql-compose-mysql' jest --forceExit --detectOpenHandles"
+  },
+  "version": "0.0.2"
+}

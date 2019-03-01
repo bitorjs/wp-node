@@ -3,8 +3,18 @@ import config from './config';
 // import views from 'koa-views';
 // import KoaRouter from 'koa-router';
 
+
 // import path from 'path';
-let client = app => {
+let client =  app => {
+
+
+
+// console.log(schema)
+// .then(schema => {
+//     console.log(schema)
+// })
+
+
   // app.use(views(path.join(__dirname, '../app/view'), {
   //   extension: 'ejs',
   //   // map: {

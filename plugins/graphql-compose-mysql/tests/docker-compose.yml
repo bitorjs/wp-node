@@ -1,0 +1,23 @@
+version: "3"
+services:
+  mysql-db:
+    image: mysql:5.7
+    environment:
+      MYSQL_ROOT_PASSWORD: secret
+    ports:
+    - "3306:3306"
+    volumes:
+      - mysql:/var/lib/mysql
+      - ./data/test_db:/tmp/data/test_db
+      - ./setup/mysql.setup.sh:/tmp/setup/mysql.setup.sh
+      - ./setup/wait-for-it.sh:/tmp/setup/wait-for-it.sh
+    command: bash -c 'chmod +x /tmp/setup/mysql.setup.sh && (/tmp/setup/mysql.setup.sh&) && /entrypoint.sh mysqld'
+
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8080:8080
+
+volumes:
+  mysql:

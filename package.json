@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "webpack --config ./build/webpack.dev.js --hot --watch --progress --color",
-    "dev": "supervisor --harmon ./dist/server.js",
+    "dev": "NODE_ENV=development && supervisor --harmon ./dist/server.js",
     "server": "node ./dist/server.js",
     "debug": "node --inspect-brk ./dist/server.js",
     "build": "webpack --config ./build/webpack.prod.js --progress --color",
@@ -37,6 +37,7 @@
     "@babel/register": "^7.0.0",
     "babel-loader": "^8.0.5",
     "clean-webpack-plugin": "^1.0.1",
+    "graphql-compose-mysql": "file:plugins/graphql-compose-mysql",
     "webpack": "^4.29.3",
     "webpack-cli": "^3.2.3",
     "webpack-dev-server": "^3.1.14",

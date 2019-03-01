@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>GraphQL</title>
+  <style>
+    *{
+      padding: 0;
+      margin: 0;
+      box-sizing: border-box;
+    }
+  .container{
+    width: 100vw;
+    height: 100vh;
+    padding: 1rem;
+  }
+
+  .container .editor, .container .response {
+    float: left;
+    width: 49%;
+    height: 100%;
+    border: 1px solid green;
+    outline: none;
+  }
+  </style>
+   <script src="https://cdn.bootcss.com/axios/0.18.0/axios.js"></script>
+   <script>axios.defaults.withCredentials = true;</script>
+   <script>
+     axios.interceptors.request.use(function(config){
+     // console.log(config)
+     // config.headers.token = localStorage.token;
+     config.headers.common['Authorization'] = 'Bearer ' + localStorage.token;
+     return config;
+   })
+   </script>
+</head>
+<body>
+  <button id="loginBtn">Convert</button>
+  <div class="container">
+    <textarea class="editor" name="" id="graphql" cols="30" rows="10"></textarea><pre id="out" class="response"></pre>
+  </div>
+  <script>
+  loginBtn.onclick = function () {
+    axios.post('/graphql',{
+      data: graphql.value
+      
+    })
+      .then(function (res) {
+        console.log(res);
+
+        out.innerHTML = JSON.stringify(res.data,null,2);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  }
+  </script>
+</body>
+</html>
