@@ -19,7 +19,7 @@ export default class {
             port: 3306,
             user: "root",
             password: "root",
-            database: "mysql"
+            database: "test"
         },
       });
 
@@ -30,11 +30,6 @@ export default class {
       console.log(error)
     }
     
-  }
-
-  @Get('/')
-  async t(ctx, next) {
-   await ctx.render('graphql')
   }
 
   @Get('/test')
