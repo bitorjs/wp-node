@@ -1,21 +1,20 @@
 import Koa from 'koa';
 import KoaRouter from 'koa-router';
 import decorators from 'bitorjs-decorators';
-import convert from 'koa-convert';
 import compose from 'koa-compose';
-var HashMap = require('hashmap');
+import HashMap from './hashmap';
 
 const router = new KoaRouter();
 
 // 自动注册 中间件
-const appExtends = [],
-plugins = [];
+const appExtends = [];
 
 const _controllers = []
 const _modules = [];
 
 const _middlewares = new Map();
 const _middlewareHashMap = new HashMap();
+const _controllerHashMap = new HashMap();
 
 export default class extends Koa {
 
@@ -23,9 +22,6 @@ export default class extends Koa {
     super()
     this.context.$config = {}
     this.$config = this.context.$config;
-    console.log("this.ctx", this.ctx)
-    const _use = this.use
-    this.use = x => _use.call(this, convert(x))
   }
 
   registerMiddleware(filename, middleware) {
@@ -36,7 +32,7 @@ export default class extends Koa {
     }
   }
 
-  registerController(controller) {
+  registerController(filename, controller) {
     const instance = new controller(this);
     instance.ctx = this.context;
 
@@ -94,6 +90,12 @@ export default class extends Koa {
     })
   }
 
+  registerMainClient(mainClient) {
+    console.info("挂载根插件")
+    mainClient(this);
+    this.emit("did-mainclient")
+  }
+
   watch(requireContext) {
     requireContext.keys().map(key => {
       console.log(key)
@@ -103,6 +105,7 @@ export default class extends Koa {
 
       if (key.match(/\/controller.*\.js$/)) {
         _controllers.push(m)
+        _controllerHashMap.set(filename, m)
       } else if (key.match(/\/middleware\/.*\.js$/)) {
         _middlewareHashMap.set(filename, m)
       } else if (key.match(/\/extend\/.*\.js$/)) {
@@ -127,7 +130,7 @@ export default class extends Koa {
 
   start(client, port = 1029) {
 
-    client(this)
+    this.registerMainClient(client)
 
     console.info("挂载其它插件")
     _modules.forEach(m => {
@@ -135,20 +138,24 @@ export default class extends Koa {
       m.module(this, m)
     })
 
-    console.info("注册所有中间件")
+    console.info("注册所有中间件", _middlewareHashMap.size)
     _middlewareHashMap.forEach((m, filename) => {
+      console.log(filename)
       this.registerMiddleware(filename, m);
     })
 
+    console.info("before middleware")
     appExtends.map(ex => {
       ex(this)
     })
 
-    _controllers.map(routeCtrl => {
-      this.registerController(routeCtrl)
+    console.info("注册路由")
+    _controllerHashMap.forEach((m, filename) => {
+      this.registerController(filename, m)
     })
     this.use(router.routes())
 
+    console.info("启动监听服务")
     this.listen(port, () => {
       console.log(`server is running at http://localhost:${port}`)
     });
