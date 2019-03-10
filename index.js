@@ -1,8 +1,18 @@
 import KoaAppliction from './inject';
-import config from './config';
 // import views from 'koa-views';
 // import KoaRouter from 'koa-router';
 
+var schedule = require('node-schedule');
+
+// var rule = new schedule.RecurrenceRule();
+// var times = [];
+// for(var i=1; i<60; i++){
+//   times.push(i);
+// }
+// rule.second = times;
+schedule.scheduleJob("* * * * * *", function(){
+  // console.log('scheduleCronstyle:' + new Date());
+}); 
 
 // import path from 'path';
 let client =  app => {
@@ -52,9 +62,9 @@ let client =  app => {
   // app.use(aa())
   // app.use(router.routes())
 
-
-  app.watch(require.context("./app", true, /.*\.js$/));
   app.watch(require.context("./config", true, /.*\.js$/));
+  app.watch(require.context("./app", true, /.*\.js$/));
+  
 }
 
-new KoaAppliction().start(client, config.port);
+new KoaAppliction().start(client, 1029);

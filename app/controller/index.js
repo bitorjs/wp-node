@@ -1,14 +1,19 @@
 import {
   Controller,
   Get,
-  Post
+  Post,
+  Middleware
 } from 'bitorjs-decorators';
 import jwt from 'jsonwebtoken';
 
 import axios from '../libs/axios';
 
-
 @Controller('/')
+@Middleware(async (ctx, next)=>{
+  console.log("..222", ctx.$config)
+  next()
+})
+@Middleware("before")
 export default class {
 
   @Get('/views')
@@ -24,6 +29,10 @@ export default class {
   }
 
   @Post('/login')
+  @Middleware(async (ctx, next)=>{
+    console.log("..rrrr")
+    next()
+  })
   b(ctx, next) {
     console.log('login ........', ctx.url)
     ctx.type = 'application/json;charset=UTF-8';

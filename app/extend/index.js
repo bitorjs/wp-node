@@ -8,8 +8,8 @@ import views from 'koa-views';
 import path from 'path';
 import {
   accessLogger
-} from '../middlewares/log';
-import mail from '../middlewares/mail';
+} from '../middleware/log';
+import mail from '../middleware/mail';
 import redis from '../store/redis';
 
 import {
@@ -65,7 +65,7 @@ export default app => {
     multipart: true, // 支持文件上传
     // encoding: 'gzip',
     // jsonStrict: false, // for json
-    strict: false, // for method
+    parsedMethods:['POST', 'PUT', 'PATCH'],
     formidable: {
       uploadDir: path.join(cwd, 'public/upload/'), // 设置文件上传目录
       keepExtensions: true, // 保持文件的后缀
@@ -99,8 +99,5 @@ export default app => {
     threshold: 2048,
     flush: require('zlib').Z_SYNC_FLUSH
   }));
-  // app.use((ctx, next) => {
-  //   console.log('...>>@@@@@')
-  //   next()
-  // })
+
 }
