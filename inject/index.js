@@ -10,10 +10,13 @@ const router = new KoaRouter();
 const appExtends = [];
 
 const _modules = [];
-
+const _services = new Map();
 const _middlewares = new Map();
+
 const _middlewareHashMap = new HashMap();
 const _controllerHashMap = new HashMap();
+const _serviceHashMap = new HashMap();
+const _mockHashMap = new HashMap();
 
 export default class extends Koa {
 
@@ -29,6 +32,31 @@ export default class extends Koa {
       _middlewares.set(filename, middleware);
     } else {
       throw new Error(`Middleware [${filename}] has been declared`)
+    }
+  }
+
+  registerService(filename, service) {
+    const instance = new service(this.context);
+    instance.ctx = this.context;
+    let name = decorators.getService(service);
+    if (name) {
+      
+      if (_services.has(name)) {
+        throw new Error(`Service [${name}] has been declared`)
+      } else { 
+        _services.set(name, service)
+        this.context.$service = this.context.$service || {};
+        this.context.$service[name] = instance;
+      }
+    } else {
+      if (_services.has(filename)) {
+        throw new Error(`Service [${filename}] has been declared`)
+      } else {
+        _services.set(filename, service)
+        this.context.$service = this.context.$service || {};
+        this.context.$service[filename] = instance;
+        console.warn('Service ', service, 'use @Service(name)')
+      }
     }
   }
 
@@ -109,6 +137,10 @@ export default class extends Koa {
         _middlewareHashMap.set(filename, m)
       } else if (key.match(/\/extend\/.*\.js$/)) {
         appExtends.push(m)
+      } else if (key.match(/\/service\/.*\.js$/) != null) {
+        _serviceHashMap.set(filename, m)
+      } else if (key.match(/\/mock\/.*\.js$/) != null) {
+        _mockHashMap.set(filename, m)
       } else if (key.match(/\/plugin\.config\.js$/) != null) {
         m.forEach(item => {
           if (item.enable === true) _modules.push(item);
@@ -141,6 +173,17 @@ export default class extends Koa {
     _middlewareHashMap.forEach((m, filename) => {
       this.registerMiddleware(filename, m);
     })
+
+    console.info("注册所有实际请求服务")
+    if(this.$config && this.$config.mock !== true) {
+      _serviceHashMap.forEach((m, filename) => {
+          this.registerService(filename, m)
+        })
+    } else {
+      _mockHashMap.forEach((m, filename) => {
+        this.registerService(filename, m)
+      })
+    }
 
     console.info("应用前置中间件")
     appExtends.map(ex => {

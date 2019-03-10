@@ -6,11 +6,9 @@ import {
 } from 'bitorjs-decorators';
 import jwt from 'jsonwebtoken';
 
-import axios from '../libs/axios';
-
 @Controller('/')
 @Middleware(async (ctx, next)=>{
-  console.log("..222", ctx.$config)
+  console.log("..222", ctx.$config.env)
   next()
 })
 @Middleware("before")
