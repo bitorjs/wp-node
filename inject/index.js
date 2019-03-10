@@ -9,7 +9,6 @@ const router = new KoaRouter();
 // 自动注册 中间件
 const appExtends = [];
 
-const _controllers = []
 const _modules = [];
 
 const _middlewares = new Map();
@@ -20,6 +19,7 @@ export default class extends Koa {
 
   constructor() {
     super()
+    console.info("App 应用实例化")
     this.context.$config = {}
     this.$config = this.context.$config;
   }
@@ -104,7 +104,6 @@ export default class extends Koa {
       let filename = key.replace(/(.*\/)*([^.]+).*/ig, "$2");
 
       if (key.match(/\/controller.*\.js$/)) {
-        _controllers.push(m)
         _controllerHashMap.set(filename, m)
       } else if (key.match(/\/middleware\/.*\.js$/)) {
         _middlewareHashMap.set(filename, m)
@@ -140,11 +139,10 @@ export default class extends Koa {
 
     console.info("注册所有中间件", _middlewareHashMap.size)
     _middlewareHashMap.forEach((m, filename) => {
-      console.log(filename)
       this.registerMiddleware(filename, m);
     })
 
-    console.info("before middleware")
+    console.info("应用前置中间件")
     appExtends.map(ex => {
       ex(this)
     })
