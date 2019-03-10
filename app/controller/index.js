@@ -42,6 +42,9 @@ export default class {
     ctx.$get('/views/1?a=2&b=3',{
       a:1,
       b:2
+    }).then(res=>{
+      console.log("%%%%%%",res)
+      debugger
     })
     console.log('login ........', ctx.url)
     ctx.type = 'application/json;charset=UTF-8';

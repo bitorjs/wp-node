@@ -36,7 +36,7 @@ export default class extends Koa {
         request.body = {}
         let urlParts = url.split("?")
         let routes = router.match(urlParts[0], method);
-        console.log(routes)
+        console.log(routes, this)
         let route = routes.path[0];
         if (route) {
         //   request.params = route.params;
@@ -50,7 +50,7 @@ export default class extends Koa {
           } else  {//if(method === "post")
             request.body = Object.assign(request.body, params);
           }
-          return route.stack[0](request)
+          return route.stack[0](this.context)
         } else {
           return Promise.reject(`未找到路由[${url}]`);
         }
