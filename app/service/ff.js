@@ -1,5 +1,9 @@
+import {
+  Service
+} from 'bitorjs-decorators';
 import axios from '../libs/axios';
 
+@Service("ff")
 export default class {
   async aa(){
     console.warn('09998')
