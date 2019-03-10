@@ -137,7 +137,7 @@ export default class extends Koa {
       m.module(this, m)
     })
 
-    console.info("注册所有中间件", _middlewareHashMap.size)
+    console.info("注册所有中间件")
     _middlewareHashMap.forEach((m, filename) => {
       this.registerMiddleware(filename, m);
     })
