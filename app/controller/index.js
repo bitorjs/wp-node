@@ -5,6 +5,7 @@ import {
   Middleware
 } from 'bitorjs-decorators';
 import jwt from 'jsonwebtoken';
+import { ENGINE_METHOD_ALL } from 'constants';
 
 @Controller('/')
 @Middleware(async (ctx, next)=>{
@@ -26,12 +27,22 @@ export default class {
     console.log('page ...')
   }
 
+  @Get('/views/1')
+  async abbb(ctx, next) {
+    
+    return 1;
+  }
+
   @Post('/login')
   @Middleware(async (ctx, next)=>{
     console.log("..rrrr")
     next()
   })
   b(ctx, next) {
+    ctx.$get('/views/1?a=2&b=3',{
+      a:1,
+      b:2
+    })
     console.log('login ........', ctx.url)
     ctx.type = 'application/json;charset=UTF-8';
     const token = jwt.sign({
