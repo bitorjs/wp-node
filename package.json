@@ -70,6 +70,7 @@
     "nunjucks": "^3.2.0",
     "plugin-sso": "file:plugins/plugin-sso",
     "qs": "^6.6.0",
-    "redis": "^2.8.0"
+    "redis": "^2.8.0",
+    "test-browser": "file:plugins/test-browser"
   }
 }

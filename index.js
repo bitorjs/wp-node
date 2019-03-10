@@ -1,6 +1,6 @@
 import KoaAppliction from './inject';
 import schedule from 'node-schedule';
-
+import a from "test-browser";
 
 schedule.scheduleJob("* * * * * *", function(){
   // console.log('scheduleCronstyle:' + new Date());

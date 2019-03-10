@@ -86,7 +86,7 @@ export default class extends Koa {
         _services.set(filename, service)
         this.context.$service = this.context.$service || {};
         this.context.$service[filename] = instance;
-        console.warn('Service ', service, 'use @Service(name)')
+        console.warn('Service ', filename, 'use @Service(name)')
       }
     }
   }
