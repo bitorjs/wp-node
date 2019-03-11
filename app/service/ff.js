@@ -15,4 +15,8 @@ export default class {
     return 'from service2-' + res;
   }
 
+  async bb(){
+    // this.ctx.db.query()
+  }
+
 }

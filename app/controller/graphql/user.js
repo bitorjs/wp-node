@@ -10,6 +10,12 @@ const { composeWithMysql ,graphql} = require("graphql-compose-mysql")
 @Controller('/graphql')
 export default class {
 
+  @Get('/')
+  async abbb(ctx, next) {
+
+    await ctx.render('graphql');
+  }
+
   @Post('/')
   async g(ctx, next){
     try {
